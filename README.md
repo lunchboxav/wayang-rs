@@ -27,9 +27,9 @@ This file should generate an HTML file roughly as follows
   <body>
     <h1>scene number a</h1>
     <p>scene description</p>
-    <p>Event descriotion</p>
-    <a href="x.html>choice 1</a>
-    <a href="y.html>choice 1</a>
+    <p>Event description</p>
+    <a href="x.html">choice 1</a>
+    <a href="y.html">choice 2</a>
   <body>
 </html>
 ```
