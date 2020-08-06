@@ -1,0 +1,8 @@
+Scene
+  [scene-1]
+  Our hero walks in to the big hall. He sees a giant horse statue in front of him. Glancing to his left, he sees a half shut door with hanging key. Somebody must've just gone in there.
+  Event
+    Suddenly, he hears a giant thud from the room next door.
+  Branch
+    Stay in the hall and observe the giant statue [scene-2]
+    Run to next door [scene-3]
