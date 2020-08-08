@@ -1,0 +1,16 @@
+WHITESPACE = _{" "|"\t"}
+
+str_inner = @{ char* }
+char = {
+	!("\"" | "\\") ~ ANY
+    | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" )
+}
+
+word = {(LETTER | NUMBER)+}
+// words = ${word ~ (" " ~ word)*}
+
+item = {("\"" ~ str_inner ~ "\"") | word}
+
+field = { (item)+ }
+record = { "food:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field)* }
+file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }

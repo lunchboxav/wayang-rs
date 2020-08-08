@@ -1,33 +1,37 @@
-use std::fs::File;
-use std::io::prelude::*;
+extern crate pest;
+#[macro_use]
+extern crate pest_derive;
+
+use std::fs;
+
+use pest::Parser;
+
+#[derive(Parser)]
+#[grammar = "wyg.pest"]
+pub struct WYGParser;
 
 fn main() {
-  let mut data = String::new();
-  let mut f = File::open("story/story.wyg").expect("Unable to open file");
-  f.read_to_string(&mut data).expect("Unable to read data");
+  let unparsed_file = fs::read_to_string("story/test.wyg").expect("Unable to open file");
+  
+  let file = WYGParser::parse(Rule::file, &unparsed_file)
+    .expect("unsuccessful parse")
+    .next().unwrap();
+  
+  let mut record_count: u64 = 0;
 
-  let v: Vec<&str> = data.split("  \n").collect();
+  for record in file.into_inner() {
+    match record.as_rule() {
+      Rule::record => {
+        record_count += 1;
 
-  let v_scene: Vec<&str> = v[0].split("\n")
-    .into_iter()
-    .filter(|s| !s.contains("Scene"))
-    .filter(|s| !s.is_empty())
-    .collect();
-  let v_event: Vec<&str> = v[1].split("\n")
-    .into_iter()
-    .filter(|s| !s.contains("Event"))
-    .filter(|s| !s.is_empty())
-    .collect();
-  let v_branch: Vec<&str> = v[2].split("\n")
-    .into_iter()
-    .filter(|s| !s.contains("Branch"))
-    .filter(|s| !s.is_empty())
-    .collect();
+        for field in record.into_inner() {
+          println!("{}", field.as_str().parse::<String>().unwrap());
+        }
+      }
+      Rule::EOI => (),
+      _ => unreachable!()
+    }
+  }
 
-  println!("{:?}", v_scene);
-  println!("{:?}", v_event);
-  println!("{:?}", v_branch);
-
-
-
+  println!("Number of records: {}", record_count);
 }
