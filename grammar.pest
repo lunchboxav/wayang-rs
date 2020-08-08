@@ -1,0 +1,12 @@
+WHITESPACE = _{" "|"\t"}
+
+str_inner = @{ char* }
+char = {
+	!("\"" | "\\") ~ ANY
+    | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" )
+}
+
+word = {(LETTER | NUMBER)+}
+words = ${word ~ (" " ~ word)*}
+
+job = {("\"" ~ str_inner ~ "\"") | word}
