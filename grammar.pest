@@ -9,4 +9,7 @@ char = {
 word = {(LETTER | NUMBER)+}
 words = ${word ~ (" " ~ word)*}
 
-job = {("\"" ~ str_inner ~ "\"") | word}
+item = {("\"" ~ str_inner ~ "\"") | word}
+
+field = { (item)+ }
+record = { "food:" ~ "\n" ~ field ~ ("\n" ~ field)* }
