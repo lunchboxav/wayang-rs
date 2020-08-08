@@ -37,4 +37,21 @@ This file should generate an HTML file roughly as follows
 How this HTML is presented is then left to the implementation phase of the file, as it's just a matter of styling HTML and CSS.
 
 ## Roadmap
-At the moment the biggest milestone is getting the DSL properly parsed into said HTML format. 
+At the moment the biggest milestone is getting the DSL properly parsed into said HTML format. After managed to parse it by hand, I realize that using parser Crate such as [pest](https://www.pest.rs) is a better option. 
+
+## Parsing .wyg file
+As an effort to parse `.wyg` file using pest, a grammar needs to be established first. The [`grammar.pest`](https://github.com/lunchboxav/wayang-rs/blob/master/grammar.pest) file is an initial effort to do so. At this stage, this grammar should be enough to parse the following text and grab the name of food from the list
+
+```
+food: 
+nasi goreng pinggir jalan
+es teler
+```
+
+Some target is to correctly parse strings from list, where each items in the list is denoted by new line, and each string isn't written with quotes or double quotes. Parsing such text should result in the following:
+
+```
+- record
+  - field > item > word: "nasi goreng pinggir jalan"
+  - field > item > word: "es teler"
+```
