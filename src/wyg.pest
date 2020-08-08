@@ -12,5 +12,5 @@ word = {(LETTER | NUMBER)+}
 item = {("\"" ~ str_inner ~ "\"") | word}
 
 field = { (item)+ }
-record = { "food:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field)* }
+record = { "Event:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field)* }
 file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
