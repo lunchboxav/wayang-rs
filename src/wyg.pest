@@ -1,3 +1,5 @@
+// Still experimental. It now correctly parses sentences inside paragraph.
+
 WHITESPACE = _{" "|"\t"}
 
 str_inner = @{ char* }
@@ -6,11 +8,17 @@ char = {
     | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" )
 }
 
-word = {(LETTER | NUMBER)+}
-// words = ${word ~ (" " ~ word)*}
+word = _{(LETTER | NUMBER)+}
+words = ${word ~ (" " ~ word)*}
+sentence = ${word ~ (" " ~ word)* ~ "."}
+paragraph = ${sentence ~ (" " ~ sentence)* ~ "\n"}
 
-item = {("\"" ~ str_inner ~ "\"") | word}
+// item = {("\"" ~ str_inner ~ "\"") | word}
+// item = { words }
+// item = {("\"" ~ str_inner ~ "\"")}
+item = { paragraph }
 
 field = { (item)+ }
-record = { "Event:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field ~ ".")* }
-file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
+event_record = { "Event:" ~ "\n" ~ field }
+// event_record = { "Event:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field ~ ".")* }
+// file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
