@@ -10,15 +10,15 @@ char = {
 
 word = _{(LETTER | NUMBER)+}
 words = ${word ~ (" " ~ word)*}
-sentence = ${word ~ (" " ~ word)* ~ "."}
-paragraph = ${sentence ~ (" " ~ sentence)* ~ "\n"}
+sentence = _{word ~ (" " ~ word)* ~ "."}
+paragraph = _{sentence ~ (" " ~ sentence)*}
 
-// item = {("\"" ~ str_inner ~ "\"") | word}
-// item = { words }
-// item = {("\"" ~ str_inner ~ "\"")}
-item = { paragraph }
+//item = {("\"" ~ str_inner ~ "\"") | word}
+//item = { words }
+//item = {("\"" ~ str_inner ~ "\"")}
+item = ${ paragraph }
 
-field = { (item)+ }
-event_record = { "Event:" ~ "\n" ~ field }
+field = _{ (item)+ }
+event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
 // event_record = { "Event:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field ~ ".")* }
-// file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
+//file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
