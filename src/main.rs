@@ -23,7 +23,6 @@ fn main() {
       Rule::event_record => {
         for field in record.into_inner() {
           event_vec.push(field.as_str().parse::<String>().unwrap());
-          //println!("{}", field.as_str().parse::<String>().unwrap());
         }
       }
       Rule::EOI => (),
@@ -32,4 +31,5 @@ fn main() {
   }
 
   println!("{:?}", event_vec);
+  println!("there are {} event records", event_vec.len());
 }
