@@ -9,16 +9,12 @@ char = {
 }
 
 word = _{(LETTER | NUMBER)+}
-words = ${word ~ (" " ~ word)*}
-sentence = _{word ~ (" " ~ word)* ~ "."}
-paragraph = _{sentence ~ (" " ~ sentence)*}
+sentence = _{word ~ ","? ~ (SPACE_SEPARATOR ~ word)* ~ ("." | "?" | "!")}
+paragraph = _{sentence ~ (" " ~ sentence)* }
 
-//item = {("\"" ~ str_inner ~ "\"") | word}
-//item = { words }
-//item = {("\"" ~ str_inner ~ "\"")}
 item = ${ paragraph }
 
-field = _{ (item)+ }
+field = ${ (item)+ }
 event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
-// event_record = { "Event:" ~ "\n" ~ field ~ "." ~ ("\n" ~ field ~ ".")* }
+
 file = { SOI ~ (event_record ~ ("\r\n" | "\n"))* ~ EOI }
