@@ -3,7 +3,6 @@ extern crate pest;
 extern crate pest_derive;
 
 use std::fs;
-
 use pest::Parser;
 
 #[derive(Parser)]
@@ -16,16 +15,15 @@ fn main() {
   let file = WYGParser::parse(Rule::file, &unparsed_file)
     .expect("unsuccessful parse")
     .next().unwrap();
-  
-  let mut record_count: u64 = 0;
+
+  let mut event_vec = Vec::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
-      Rule::record => {
-        record_count += 1;
-
+      Rule::event_record => {
         for field in record.into_inner() {
-          println!("{}", field.as_str().parse::<String>().unwrap());
+          event_vec.push(field.as_str().parse::<String>().unwrap());
+          //println!("{}", field.as_str().parse::<String>().unwrap());
         }
       }
       Rule::EOI => (),
@@ -33,5 +31,5 @@ fn main() {
     }
   }
 
-  println!("Number of records: {}", record_count);
+  println!("{:?}", event_vec);
 }
