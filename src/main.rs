@@ -20,7 +20,7 @@ fn main() {
 
   for record in file.into_inner() {
     match record.as_rule() {
-      Rule::event_record => {
+      Rule::record => {
         for field in record.into_inner() {
           event_vec.push(field.as_str().parse::<String>().unwrap());
         }
@@ -31,5 +31,5 @@ fn main() {
   }
 
   println!("{:?}", event_vec);
-  println!("there are {} event records", event_vec.len());
+  println!("there are {} records", event_vec.len());
 }
