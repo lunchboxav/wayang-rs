@@ -14,7 +14,9 @@ paragraph = _{sentence ~ (" " ~ sentence)* }
 
 item = ${ paragraph }
 
-field = ${ (item)+ }
+field = _{ (item)+ }
 event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
+choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ ("\n" ~ "-" ~ field)* }
+record = { event_record ~ "\n" ~ "\n" ~ choice_record }
 
 file = { SOI ~ (event_record ~ ("\r\n" | "\n"))* ~ EOI }
