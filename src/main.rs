@@ -17,12 +17,23 @@ fn main() {
     .next().unwrap();
 
   let mut event_vec = Vec::new();
+  let mut choice_vec = Vec::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
       Rule::record => {
-        for field in record.into_inner() {
-          event_vec.push(field.as_str().parse::<String>().unwrap());
+        for f in record.into_inner() {
+          let rule = f.as_rule();
+          if rule == Rule::event_record {
+            for i in f.into_inner() {
+              event_vec.push(i.as_str());
+            }
+          } else if rule == Rule::choice_record {
+            for i in f.into_inner() {
+              choice_vec.push(i.as_str());
+            }
+          }
+          
         }
       }
       Rule::EOI => (),
@@ -31,5 +42,8 @@ fn main() {
   }
 
   println!("{:?}", event_vec);
-  println!("there are {} records", event_vec.len());
+  println!("there are {} event records", event_vec.len());
+
+  println!("{:?}", choice_vec);
+  println!("there are {} event records", choice_vec.len());
 }

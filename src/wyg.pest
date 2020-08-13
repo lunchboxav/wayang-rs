@@ -12,11 +12,12 @@ word = _{(LETTER | NUMBER)+}
 sentence = _{word ~ ","? ~ (SPACE_SEPARATOR ~ word)* ~ ("." | "?" | "!")}
 paragraph = _{sentence ~ (" " ~ sentence)* }
 
-item = ${ paragraph }
+item = { paragraph }
 
-field = _{ (item)+ }
+field = @{ (item)+ }
 event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
 choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ ("\n" ~ "-" ~ field)* }
-record = { event_record ~ "\n" ~ "\n" ~ choice_record }
+record = { (event_record | choice_record)? }
+// record = { event_record ~ "\n" ~ "\n" ~ choice_record }
 
 file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
