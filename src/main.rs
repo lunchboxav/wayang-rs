@@ -10,12 +10,14 @@ use pest::Parser;
 pub struct WYGParser;
 
 fn main() {
-  let unparsed_file = fs::read_to_string("story/test.wyg").expect("Unable to open file");
+  let unparsed_file = fs::read_to_string("story/test.wyg")
+    .expect("Unable to open file");
   
   let file = WYGParser::parse(Rule::file, &unparsed_file)
     .expect("unsuccessful parse")
     .next().unwrap();
 
+  let mut scene_vec = Vec::new();  
   let mut event_vec = Vec::new();
   let mut choice_vec = Vec::new();
 
@@ -24,7 +26,11 @@ fn main() {
       Rule::record => {
         for f in record.into_inner() {
           let rule = f.as_rule();
-          if rule == Rule::event_record {
+          if rule == Rule::scene_record {
+            for i in f.into_inner() {
+              scene_vec.push(i.as_str());
+            }
+          } else if rule == Rule::event_record {
             for i in f.into_inner() {
               event_vec.push(i.as_str());
             }
@@ -33,7 +39,6 @@ fn main() {
               choice_vec.push(i.as_str());
             }
           }
-          
         }
       }
       Rule::EOI => (),
@@ -41,9 +46,12 @@ fn main() {
     }
   }
 
+  println!("{:?}", scene_vec);
+  println!("there are {} scene records", scene_vec.len());
+
   println!("{:?}", event_vec);
   println!("there are {} event records", event_vec.len());
 
   println!("{:?}", choice_vec);
-  println!("there are {} event records", choice_vec.len());
+  println!("there are {} choice records", choice_vec.len());
 }

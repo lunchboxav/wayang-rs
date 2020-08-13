@@ -1,6 +1,9 @@
-Event: 
+Scene:
+[scene 1]
 What, do you think? The water is clear. The sky is blue. The air is fresh.
-Sometime, we need a break.
+
+Event: 
+The pool to your left and door to your right. Which one will you choose?
 
 Choice:
 - Go to left.
