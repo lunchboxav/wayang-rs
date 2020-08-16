@@ -17,16 +17,20 @@ fn main() {
     .expect("unsuccessful parse")
     .next().unwrap();
 
+  let mut title = "";
   let mut scene_vec = Vec::new();  
   let mut event_vec = Vec::new();
   let mut choice_vec = Vec::new();
+  let mut temp_choice_vec = Vec::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
       Rule::record => {
         for f in record.into_inner() {
           let rule = f.as_rule();
-          if rule == Rule::scene_record {
+          if rule == Rule::meta_record {
+            title = f.as_str();
+          } else if rule == Rule::scene_record {
             for i in f.into_inner() {
               scene_vec.push(i.as_str());
             }
@@ -36,7 +40,7 @@ fn main() {
             }
           } else if rule == Rule::choice_record {
             for i in f.into_inner() {
-              choice_vec.push(i.as_str());
+              temp_choice_vec.push(i.as_str());
             }
           }
         }
@@ -46,6 +50,12 @@ fn main() {
     }
   }
 
+  for links in temp_choice_vec.chunks(2) {
+    choice_vec.push(links);
+  }
+
+  println!("title: {}", title);
+  
   println!("{:?}", scene_vec);
   println!("there are {} scene records", scene_vec.len());
 

@@ -16,14 +16,15 @@ title = { word }
 item = @{ paragraph }
 
 field = _{ (item)+ }
-link = { "->" ~ "[" ~ word ~ "]" }
-meta_record = { "[" ~ word ~ "]" }
+// link = { "->" ~ "[" ~ word ~ "]" }
+link = { word }
 
-scene_record = { "Scene:" ~ "\n" ~ "[" ~ title ~ "]" ~ ("\n" ~ field)* }
+meta_record = { "[" ~ word ~ "]" }
+scene_record = { "Scene:" ~ "\n" ~ field ~ ("\n" ~ field)* }
 event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
-choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ ("\n" ~ "-" ~ field)* }
-// choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ "" ~ link ~ ("\n" ~ "-" ~ field ~ "" ~ link )* }
-record = { (scene_record | event_record | choice_record)? }
+// choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ ("\n" ~ "-" ~ field)* }
+choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ "" ~ "->" ~ "" ~ "[" ~ link ~ "]" ~ ("\n" ~ "-" ~ field ~ "" ~ "->" ~ "" ~ "[" ~ link ~ "]" )* }
+record = { (meta_record | scene_record | event_record | choice_record)? }
 // record = { event_record ~ "\n" ~ "\n" ~ choice_record }
 
 file = { SOI ~ (record ~ ("\r\n" | "\n"))* ~ EOI }
