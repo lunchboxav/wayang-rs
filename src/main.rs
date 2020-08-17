@@ -9,6 +9,12 @@ use pest::Parser;
 #[grammar = "wyg.pest"]
 pub struct WYGParser;
 
+#[derive(Debug)]
+struct Link {
+  text: String,
+  anchor: String
+}
+
 fn main() {
   let unparsed_file = fs::read_to_string("story/test.wyg")
     .expect("Unable to open file");
@@ -22,6 +28,7 @@ fn main() {
   let mut event_vec = Vec::new();
   let mut choice_vec = Vec::new();
   let mut temp_choice_vec = Vec::new();
+  let mut links_vec = Vec::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
@@ -50,8 +57,16 @@ fn main() {
     }
   }
 
-  for links in temp_choice_vec.chunks(2) {
-    choice_vec.push(links);
+  for links_pair in temp_choice_vec.chunks(2) {
+    choice_vec.push(links_pair);
+  }
+
+  for links in choice_vec {
+    let link: Link = Link {
+      text: links[0].to_string(),
+      anchor: links[1].to_string()
+    };
+    links_vec.push(link);
   }
 
   println!("title: {}", title);
@@ -62,6 +77,6 @@ fn main() {
   println!("{:?}", event_vec);
   println!("there are {} event records", event_vec.len());
 
-  println!("{:?}", choice_vec);
-  println!("there are {} choice records", choice_vec.len());
+  println!("{:?}", links_vec);
+  println!("there are {} links records", links_vec.len());
 }
