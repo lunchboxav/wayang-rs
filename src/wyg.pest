@@ -19,7 +19,7 @@ field = _{ (item)+ }
 // link = { "->" ~ "[" ~ word ~ "]" }
 link = { word }
 
-meta_record = { "[" ~ word ~ "]" }
+meta_record = { "[" ~ title ~ "]" }
 scene_record = { "Scene:" ~ "\n" ~ field ~ ("\n" ~ field)* }
 event_record = { "Event:" ~ "\n" ~ field ~ ("\n" ~ field)* }
 // choice_record = { "Choice:" ~ "\n" ~ "-" ~ field ~ ("\n" ~ "-" ~ field)* }

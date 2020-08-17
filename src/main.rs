@@ -44,7 +44,7 @@ fn main() -> std::io::Result<()>{
         for f in record.into_inner() {
           let rule = f.as_rule();
           if rule == Rule::meta_record {
-            title = f.as_str();
+            title = f.into_inner().as_str();
           } else if rule == Rule::scene_record {
             for i in f.into_inner() {
               scene_vec.push(i.as_str());
@@ -71,7 +71,7 @@ fn main() -> std::io::Result<()>{
     event_text: &event_vec[0]
   };
 
-  println!("{:?}",test_template.call().unwrap().to_string());
+  // println!("{:?}",test_template.call().unwrap().to_string());
 
   println!("title: {}", title);
   
@@ -84,7 +84,9 @@ fn main() -> std::io::Result<()>{
   println!("{:?}", links_vec);
   println!("there are {} links records", links_vec.len());
 
-  let mut buffer = File::create("result/test.html")?;
+  let root_path = "result";
+  let path = format!("{}/{}.html",root_path,title);
+  let mut buffer = File::create(path)?;
 
   buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
   Ok(())
