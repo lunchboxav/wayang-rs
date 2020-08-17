@@ -26,9 +26,7 @@ fn main() {
   let mut title = "";
   let mut scene_vec = Vec::new();  
   let mut event_vec = Vec::new();
-  let mut choice_vec = Vec::new();
   let mut temp_choice_vec = Vec::new();
-  let mut links_vec = Vec::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
@@ -57,17 +55,7 @@ fn main() {
     }
   }
 
-  for links_pair in temp_choice_vec.chunks(2) {
-    choice_vec.push(links_pair);
-  }
-
-  for links in choice_vec {
-    let link: Link = Link {
-      text: links[0].to_string(),
-      anchor: links[1].to_string()
-    };
-    links_vec.push(link);
-  }
+  let links_vec = create_links_vector(temp_choice_vec);
 
   println!("title: {}", title);
   
@@ -79,4 +67,23 @@ fn main() {
 
   println!("{:?}", links_vec);
   println!("there are {} links records", links_vec.len());
+}
+
+fn create_links_vector(v: Vec<&str>) -> Vec<Link> {
+  let mut temp_v = Vec::new();
+  let mut result_v = Vec::new();
+
+  for links_pair in v.chunks(2) {
+    temp_v.push(links_pair);
+  }
+
+  for links in temp_v {
+    let link: Link = Link {
+      text: links[0].to_string(),
+      anchor: links[1].to_string()
+    };
+    result_v.push(link);
+  }
+
+  result_v
 }
