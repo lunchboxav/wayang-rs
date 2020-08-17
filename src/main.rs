@@ -21,7 +21,9 @@ struct Link {
 
 #[derive(Template)]
 #[template(path="test")]
-struct EventTemplate<'a> {
+struct PageTemplate<'a> {
+  title_text: &'a str,
+  scene_text: &'a str,
   event_text: &'a str
 }
 
@@ -67,7 +69,9 @@ fn main() -> std::io::Result<()>{
 
   let links_vec = create_links_vector(temp_choice_vec);
 
-  let test_template = EventTemplate {
+  let test_template = PageTemplate {
+    title_text: title,
+    scene_text: &scene_vec[0],
     event_text: &event_vec[0]
   };
 
