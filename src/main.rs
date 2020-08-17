@@ -5,6 +5,10 @@ extern crate pest_derive;
 use std::fs;
 use pest::Parser;
 
+use yarte::Template;
+
+use std::io::prelude::*;
+use std::fs::File;
 #[derive(Parser)]
 #[grammar = "wyg.pest"]
 pub struct WYGParser;
@@ -15,7 +19,13 @@ struct Link {
   anchor: String
 }
 
-fn main() {
+#[derive(Template)]
+#[template(path="test")]
+struct EventTemplate<'a> {
+  event_text: &'a str
+}
+
+fn main() -> std::io::Result<()>{
   let unparsed_file = fs::read_to_string("story/test.wyg")
     .expect("Unable to open file");
   
@@ -57,6 +67,12 @@ fn main() {
 
   let links_vec = create_links_vector(temp_choice_vec);
 
+  let test_template = EventTemplate {
+    event_text: &event_vec[0]
+  };
+
+  println!("{:?}",test_template.call().unwrap().to_string());
+
   println!("title: {}", title);
   
   println!("{:?}", scene_vec);
@@ -67,6 +83,11 @@ fn main() {
 
   println!("{:?}", links_vec);
   println!("there are {} links records", links_vec.len());
+
+  let mut buffer = File::create("result/test.html")?;
+
+  buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
+  Ok(())
 }
 
 fn create_links_vector(v: Vec<&str>) -> Vec<Link> {

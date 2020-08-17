@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 pest = "2.0"
 pest_derive = "2.0"
+yarte = "0.10"
