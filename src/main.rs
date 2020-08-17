@@ -24,7 +24,8 @@ struct Link {
 struct PageTemplate<'a> {
   title_text: &'a str,
   scene_text: &'a str,
-  event_text: &'a str
+  event_text: &'a str,
+  link_texts: &'a Vec<Link>
 }
 
 fn main() -> std::io::Result<()>{
@@ -72,11 +73,11 @@ fn main() -> std::io::Result<()>{
   let test_template = PageTemplate {
     title_text: title,
     scene_text: &scene_vec[0],
-    event_text: &event_vec[0]
+    event_text: &event_vec[0],
+    link_texts: &links_vec
   };
 
-  // println!("{:?}",test_template.call().unwrap().to_string());
-
+  println!("For testing purpose");
   println!("title: {}", title);
   
   println!("{:?}", scene_vec);
