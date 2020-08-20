@@ -45,21 +45,26 @@ fn main() -> std::io::Result<()>{
     match record.as_rule() {
       Rule::record => {
         for f in record.into_inner() {
-          let rule = f.as_rule();
-          if rule == Rule::meta_record {
-            title = f.into_inner().as_str();
-          } else if rule == Rule::scene_record {
-            for i in f.into_inner() {
-              scene_vec.push(i.as_str());
+          match f.as_rule() {
+            Rule::meta_record => {
+              title = f.into_inner().as_str();
             }
-          } else if rule == Rule::event_record {
-            for i in f.into_inner() {
-              event_vec.push(i.as_str());
+            Rule::scene_record => {
+              for i in f.into_inner() {
+                scene_vec.push(i.as_str());
+              }
             }
-          } else if rule == Rule::choice_record {
-            for i in f.into_inner() {
-              temp_choice_vec.push(i.as_str());
+            Rule::event_record => {
+              for i in f.into_inner() {
+                event_vec.push(i.as_str());
+              }
             }
+            Rule::choice_record => {
+              for i in f.into_inner() {
+                temp_choice_vec.push(i.as_str());
+              }
+            }
+            _ => unreachable!()
           }
         }
       }
@@ -115,3 +120,12 @@ fn create_links_vector(v: Vec<&str>) -> Vec<Link> {
 
   result_v
 }
+
+// fn write_html() {
+//   let root_path = "result";
+//   let path = format!("{}/{}.html",root_path,title);
+//   let mut buffer = File::create(path)?;
+
+//   buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
+//   Ok(())
+// }
