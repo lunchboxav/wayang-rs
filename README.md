@@ -56,3 +56,22 @@ At the moment the biggest milestone is getting the DSL properly parsed into said
 
 ## Parsing .wyg file
 As an effort to parse `.wyg` file using pest, a grammar needs to be established first. The [`grammar.pest`](https://github.com/lunchboxav/wayang-rs/blob/master/grammar.pest) file is an effort to do so. The current grammar file is enough to parse the specified `.wyg` file to grab required data. If you're testing the grammar, [pest.rs](https://pest.rs/) homepage has a nice parser playground for experimenting.
+
+## Running the project
+Clone this project and simply run `cargo run` in the cloned directory. It will do 2 things:
+- Parse `.wyg` file stored in `story` directory
+- Create `.html` file stored in `result` directory, based on the parsing result.
+
+For the time being, the `.wyg` file is hard coded, so you need to change that too.
+
+You can create additional `.wyg` file or edit existing one. Just make sure that you're following the file structure.
+
+## Contributing
+I'm open for contribution! Just submit a PR that solve documented issue or suggesting new changes. To contribute:
+
+- Fork this project
+- Create a new branch name in the forked repo, you can name it anything, but it's better to name a branch to a certain issue or feature, so it's easy to review
+- Create changes in that branch
+- Submit the PR :D
+
+Also, feel free to submit issue as well. I highly appreciate any form of contribution to this small project. 🙌
