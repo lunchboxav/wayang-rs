@@ -28,6 +28,34 @@ struct PageTemplate<'a> {
   link_texts: &'a Vec<Link>
 }
 
+#[derive(Debug)]
+struct WygStory<'a> {
+  title: &'a str,
+  scenes: Vec<&'a str>,
+  events: Vec<&'a str>,
+  choices: Vec<Link>,
+}
+
+impl<'a> WygStory<'a> {
+  pub fn new() -> Self {
+    WygStory {
+      title: &"",
+      scenes: Vec::new(),
+      events: Vec::new(),
+      choices: Vec::new(),
+    }
+  }
+
+  pub fn add_choices_from_vec_str(&mut self, v: Vec<&str>) {
+    for links_pair in v.chunks(2) {
+      self.choices.push(Link {
+        text: links_pair[0].to_string(),
+        anchor: links_pair[1].to_string(),
+      });
+    }
+  }
+}
+
 fn main() -> std::io::Result<()>{
   let unparsed_file = fs::read_to_string("story/test.wyg")
     .expect("Unable to open file");
@@ -36,10 +64,12 @@ fn main() -> std::io::Result<()>{
     .expect("unsuccessful parse")
     .next().unwrap();
 
-  let mut title = "";
-  let mut scene_vec = Vec::new();  
-  let mut event_vec = Vec::new();
+  // let mut title = "";
+  // let mut scene_vec = Vec::new();  
+  // let mut event_vec = Vec::new();
   let mut temp_choice_vec = Vec::new();
+
+  let mut story = WygStory::new();
 
   for record in file.into_inner() {
     match record.as_rule() {
@@ -47,16 +77,17 @@ fn main() -> std::io::Result<()>{
         for f in record.into_inner() {
           match f.as_rule() {
             Rule::meta_record => {
-              title = f.into_inner().as_str();
+              // title = f.into_inner().as_str();
+              story.title = f.into_inner().as_str();
             }
             Rule::scene_record => {
               for i in f.into_inner() {
-                scene_vec.push(i.as_str());
+                story.scenes.push(i.as_str());
               }
             }
             Rule::event_record => {
               for i in f.into_inner() {
-                event_vec.push(i.as_str());
+                story.events.push(i.as_str());
               }
             }
             Rule::choice_record => {
@@ -73,29 +104,31 @@ fn main() -> std::io::Result<()>{
     }
   }
 
-  let links_vec = create_links_vector(temp_choice_vec);
+  // let links_vec = create_links_vector(temp_choice_vec);
+  // story.choices = create_links_vector(temp_choice_vec);
+  story.add_choices_from_vec_str(temp_choice_vec);
 
   let test_template = PageTemplate {
-    title_text: title,
-    scene_text: &scene_vec[0],
-    event_text: &event_vec[0],
-    link_texts: &links_vec
+    title_text: story.title,
+    scene_text: &story.scenes[0],
+    event_text: &story.events[0],
+    link_texts: &story.choices,
   };
 
   println!("For testing purpose");
-  println!("title: {}", title);
+  println!("title: {}", story.title);
   
-  println!("{:?}", scene_vec);
-  println!("there are {} scene records", scene_vec.len());
+  println!("{:?}", story.scenes);
+  println!("there are {} scene records", story.scenes.len());
 
-  println!("{:?}", event_vec);
-  println!("there are {} event records", event_vec.len());
+  println!("{:?}", story.events);
+  println!("there are {} event records", story.events.len());
 
-  println!("{:?}", links_vec);
-  println!("there are {} links records", links_vec.len());
+  println!("{:?}", story.choices);
+  println!("there are {} links records", story.choices.len());
 
   let root_path = "result";
-  let path = format!("{}/{}.html",root_path,title);
+  let path = format!("{}/{}.html", root_path, story.title);
   let mut buffer = File::create(path)?;
 
   buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
