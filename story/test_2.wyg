@@ -1,0 +1,11 @@
+[scene 2]
+
+Scene:
+You decided to go to the pool.
+
+Event: 
+The author of this commit does not have any idea what to put on this scene. feel free to edit it!
+
+Choice:
+- Go to left. -> [scene 2]
+- Go to right. -> [scene 3]
