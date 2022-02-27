@@ -11,6 +11,7 @@ use yarte::Template;
 
 use std::io::prelude::*;
 use std::fs::File;
+
 #[derive(Parser)]
 #[grammar = "wyg.pest"]
 pub struct WYGParser;
@@ -129,18 +130,22 @@ fn main() -> std::io::Result<()>{
 
     let root_path = "result";
     let path = format!("{}/{}.html", root_path, story.title);
-    let mut buffer = File::create(path)?;
+    let buffer = File::create(path)?;
 
-    let html_template = PageTemplate {
-      title_text: story.title,
-      scene_text: &story.scenes[0],
-      event_text: &story.events[0],
-      link_texts: &story.choices,
-    };
-
-    buffer.write(html_template.call().unwrap().to_string().as_bytes())?;
+    write_html(story, buffer);
   }
 
   Ok(())
+}
+
+fn write_html(story: WygStory, mut buffer: std::fs::File) {
+  let html_template = PageTemplate {
+    title_text: story.title,
+    scene_text: &story.scenes[0],
+    event_text: &story.events[0],
+    link_texts: &story.choices,
+  };
+
+  buffer.write(html_template.call().unwrap().to_string().as_bytes()).unwrap();
 }
 
