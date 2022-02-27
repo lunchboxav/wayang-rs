@@ -132,6 +132,7 @@ fn main() -> std::io::Result<()> {
     println!("{} links", story.choices.len());
     println!("{:?}", story.choices);
     
+    // Finally we use the values stored in story to generate HTML files.
     let root_path = "result";
     let path = format!("{}/{}.html", root_path, story.title);
     let buffer = File::create(path)?;
