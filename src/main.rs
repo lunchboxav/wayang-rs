@@ -131,14 +131,14 @@ fn main() -> std::io::Result<()>{
     let path = format!("{}/{}.html", root_path, story.title);
     let mut buffer = File::create(path)?;
 
-    let test_template = PageTemplate {
+    let html_template = PageTemplate {
       title_text: story.title,
       scene_text: &story.scenes[0],
       event_text: &story.events[0],
       link_texts: &story.choices,
     };
 
-    buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
+    buffer.write(html_template.call().unwrap().to_string().as_bytes())?;
   }
 
   Ok(())

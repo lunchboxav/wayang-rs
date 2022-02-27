@@ -60,7 +60,9 @@ As an effort to parse `.wyg` file using pest, a grammar needs to be established 
 ## Running the project
 Clone this project and simply run `cargo run` in the cloned directory. It will do 2 things:
 - Parse `.wyg` file stored in `story` directory
-- Create `.html` file stored in `result` directory, based on the parsing result.
+- Render `.html` file stored in `result` directory, based on the parsing result and the `.hbs` template stored in `/templates` directory.
+
+Under the hood, what the parser does is parsing the `.wyg` file and store them as `story` struct. Afterwards `html_template` will read `story` and populate the `.hbs` template based on the values stored. 
 
 ### File format
 Important: please ensure that the line ending is LF and not CRLF. Check your IDE for detail on how to set that up.
