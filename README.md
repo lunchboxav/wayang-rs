@@ -62,9 +62,8 @@ Clone this project and simply run `cargo run` in the cloned directory. It will d
 - Parse `.wyg` file stored in `story` directory
 - Create `.html` file stored in `result` directory, based on the parsing result.
 
-For the time being, the `.wyg` file is hard coded, so you need to change that too.
-
-You can create additional `.wyg` file or edit existing one. Just make sure that you're following the file structure.
+### File format
+Important: please ensure that the line ending is LF and not CRLF. Check your IDE for detail on how to set that up.
 
 ## Contributing
 I'm open for contribution! Just submit a PR that solve documented issue or suggesting new changes. To contribute:
