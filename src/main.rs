@@ -138,37 +138,9 @@ fn main() -> std::io::Result<()>{
       link_texts: &story.choices,
     };
 
-
     buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
   }
 
   Ok(())
 }
 
-fn create_links_vector(v: Vec<&str>) -> Vec<Link> {
-  let mut temp_v = Vec::new();
-  let mut result_v = Vec::new();
-
-  for links_pair in v.chunks(2) {
-    temp_v.push(links_pair);
-  }
-
-  for links in temp_v {
-    let link: Link = Link {
-      text: links[0].to_string(),
-      anchor: links[1].to_string()
-    };
-    result_v.push(link);
-  }
-
-  result_v
-}
-
-// fn write_html() {
-//   let root_path = "result";
-//   let path = format!("{}/{}.html",root_path,title);
-//   let mut buffer = File::create(path)?;
-
-//   buffer.write(test_template.call().unwrap().to_string().as_bytes())?;
-//   Ok(())
-// }
