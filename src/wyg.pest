@@ -9,8 +9,10 @@ char = {
 }
 
 word = _{(LETTER | NUMBER)+}
-sentence = _{word ~ ","? ~ (SPACE_SEPARATOR ~ word)* ~ ("." | "?" | "!")}
-paragraph = _{sentence ~ (" " ~ sentence)* }
+sentence = _{(word ~ (",")* ~ SPACE_SEPARATOR)+ ~ word ~ ("." | "?" | "!") ~ SPACE_SEPARATOR?}
+paragraph = _{(sentence)+ }
+// sentence = _{word ~ (SPACE_SEPARATOR ~ word)* ~ "," ? ~ (SPACE_SEPARATOR ~ word)* ~ ("." | "?" | "!")}
+// paragraph = _{sentence ~ (" " ~ sentence)* }
 
 title = { word }
 item = @{ paragraph }

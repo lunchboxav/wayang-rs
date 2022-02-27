@@ -1,0 +1,12 @@
+[scene contribute]
+
+Scene:
+You forked this project. You check the available issues to see what you can do to help. There are engine related issues, default presentation issues, and documentation issues.
+
+Event:
+You opened your text editor.
+
+Choice:
+- Hone your Rust programming skill. -> [scene engine]
+- Hone your HTML and CSS skill. -> [scene presentation]
+- Hone your technical writing skill. -> [scene documentation]
