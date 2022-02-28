@@ -8,7 +8,7 @@ char = {
     | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" )
 }
 
-word = _{(LETTER | NUMBER)+}
+word = _{(LETTER | NUMBER | "'")+}
 sentence = _{(word ~ (",")* ~ SPACE_SEPARATOR)+ ~ word ~ ("." | "?" | "!") ~ SPACE_SEPARATOR?}
 paragraph = _{(sentence)+ }
 // sentence = _{word ~ (SPACE_SEPARATOR ~ word)* ~ "," ? ~ (SPACE_SEPARATOR ~ word)* ~ ("." | "?" | "!")}

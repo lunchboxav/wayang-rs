@@ -1,0 +1,11 @@
+[scene start]
+
+Scene:
+It's sunny day outside but you decided to keep yourself inside. In front of you is your machine, opening this very file from your favorite web browser. You read this project's README file and you find this project interesting.
+
+Event: 
+You want to see this project grow. What would you do?
+
+Choice:
+- Go outside. -> [scene outside]
+- Fork this project. -> [scene contribute]
